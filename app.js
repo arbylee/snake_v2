@@ -11,7 +11,9 @@ $(function() {
       context.strokeRect(0, 0, width, height);
     };
     return {
-      draw: draw
+      draw: draw,
+      width: width,
+      height: height
     }
   };
 
@@ -48,33 +50,55 @@ $(function() {
       });
     };
 
+    var collidedWithWall = function() {
+      if(body[0].x > width){
+        return true;
+      }
+    };
+
+    var dead = function() {
+      return collidedWithWall();
+    };
+
     return {
       body: body,
       draw: draw,
-      move: move
+      move: move,
+      dead: dead
     };
   };
 
-  var main = function(snake, world) {
+  var restart = function(context, world) {
+    var snake = newSnake(context, world.height, world.width);
+    main(context, snake, world);
+  };
+
+  var main = function(context, snake, world) {
+    var alive = true;
     var gameLoop = function(){
-      world.draw();
-      snake.move();
-      snake.draw();
-      intervalId = setTimeout(gameLoop, gameTickLength);
+      if(alive) {
+        world.draw();
+        snake.move();
+        snake.draw();
+        if(snake.dead()) {
+          alive = false;
+        };
+        intervalId = setTimeout(gameLoop, gameTickLength);
+      } else {
+        restart(context, world);
+      }
     };
     intervalId = setTimeout(gameLoop, gameTickLength);
   };
 
   var init = function() {
-    var canvas, context, height, width;
+    var canvas, context;
     canvas = $('#snake_canvas');
     context = canvas[0].getContext('2d');
-    height = canvas.height();
-    width = canvas.width();
 
-    var world = newWorld(context, height, width);
-    var snake = newSnake(context, height, width);
-    main(snake, world);
+    var world = newWorld(context, canvas.height(), canvas.width());
+    var snake = newSnake(context, world.height, world.width);
+    main(context, snake, world);
   };
 
   init();
