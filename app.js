@@ -1,12 +1,17 @@
 $(function() {
   var pixelSize = 10;
 
-  var drawWorld = function(context, height, width) {
-    context.fillStyle = "#FFF";
-    context.fillRect(0, 0, width, height);
-    context.fill();
-    context.strokeStyle = "#000";
-    context.strokeRect(0, 0, width, height);
+  var newWorld = function(context, height, width) {
+    var draw = function() {
+      context.fillStyle = "#FFF";
+      context.fillRect(0, 0, width, height);
+      context.fill();
+      context.strokeStyle = "#000";
+      context.strokeRect(0, 0, width, height);
+    };
+    return {
+      draw: draw
+    }
   };
 
   var drawPixel = function(context, x, y) {
@@ -49,9 +54,9 @@ $(function() {
     };
   };
 
-  var main = function(snake, context, height, width) {
+  var main = function(snake, world) {
+    world.draw();
     snake.move();
-    drawWorld(context, height, width);
     snake.draw();
   };
 
@@ -62,10 +67,9 @@ $(function() {
     height = canvas.height();
     width = canvas.width();
 
-    drawWorld(context, height, width);
+    var world = newWorld(context, height, width);
     var snake = newSnake(context, height, width);
-    snake.draw();
-    main(snake, context, height, width);
+    main(snake, world);
   };
 
   init();
