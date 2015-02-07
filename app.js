@@ -17,20 +17,42 @@ $(function() {
     context.strokeRect(x, y, pixelSize, pixelSize);
   };
 
-  var drawInitialSnake = function(context, height, width) {
+  var newSnake = function(context, height, width) {
     var centerOfCanvasX = width/2;
     var centerOfCanvasY = height/2;
-    var initialSnakeBody = [
-      {x: width/2, y: height/2},
-      {x: width/2-pixelSize, y: height/2},
-      {x: width/2-2*pixelSize, y: height/2},
+    var body = [
+      {x: width/2, y: height/2, velocityX: 1, velocityY: 0},
+      {x: width/2-pixelSize, y: height/2, velocityX: 1, velocityY: 0},
+      {x: width/2-2*pixelSize, y: height/2, velocityX: 1, velocityY: 0},
     ]
-    _.each(initialSnakeBody, function(bodyPart) {
-      drawPixel(context, bodyPart.x, bodyPart.y);
-    });
+    var draw = function() {
+      _.each(body, function(bodyPart) {
+        drawPixel(context, bodyPart.x, bodyPart.y);
+      });
+    };
+
+    var move = function() {
+      _.each(body, function(bodyPart, i) {
+        bodyPart.x += bodyPart.velocityX * pixelSize;
+        bodyPart.y += bodyPart.velocityY * pixelSize;
+        if(i < body.length-1){
+          bodyPart.velocityX = body[i+1].velocityX;
+          bodyPart.velocityY = body[i+1].velocityY;
+        }
+      });
+    };
+
+    return {
+      body: body,
+      draw: draw,
+      move: move
+    };
   };
 
-  var main = function(context, height, width) {
+  var main = function(snake, context, height, width) {
+    snake.move();
+    drawWorld(context, height, width);
+    snake.draw();
   };
 
   var init = function() {
@@ -41,8 +63,9 @@ $(function() {
     width = canvas.width();
 
     drawWorld(context, height, width);
-    drawInitialSnake(context, height, width);
-    main(context, height, width);
+    var snake = newSnake(context, height, width);
+    snake.draw();
+    main(snake, context, height, width);
   };
 
   init();
