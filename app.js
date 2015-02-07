@@ -1,5 +1,6 @@
 $(function() {
   var pixelSize = 10;
+  var gameTickLength = 1000/6;
 
   var newWorld = function(context, height, width) {
     var draw = function() {
@@ -55,9 +56,13 @@ $(function() {
   };
 
   var main = function(snake, world) {
-    world.draw();
-    snake.move();
-    snake.draw();
+    var gameLoop = function(){
+      world.draw();
+      snake.move();
+      snake.draw();
+      intervalId = setTimeout(gameLoop, gameTickLength);
+    };
+    intervalId = setTimeout(gameLoop, gameTickLength);
   };
 
   var init = function() {
