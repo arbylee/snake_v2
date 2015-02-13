@@ -1,4 +1,4 @@
-$(function() {
+define(['jquery', 'underscore'], function($, _){
   var pixelSize = 10;
   var gameTickLength = 1000/6;
 
@@ -101,5 +101,5 @@ $(function() {
     main(context, snake, world);
   };
 
-  init();
+  return {init: init}
 });
