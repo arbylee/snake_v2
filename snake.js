@@ -23,7 +23,10 @@ define([], function() {
     };
 
     var collidedWithWall = function() {
-      if(body[0].x > world.width){
+      if(body[0].x > world.width ||
+         body[0].y > world.height ||
+         body[0].x < 0 ||
+         body[0].y < 0){
         return true;
       }
     };
