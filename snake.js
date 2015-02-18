@@ -37,17 +37,31 @@ define([], function() {
       return collidedWithWall();
     };
 
+    var facing = function(direction) {
+      if(direction == DIRECTIONS.LEFT) {
+        return body[0].velocityX == -1;
+      } else if(direction == DIRECTIONS.UP) {
+        return body[0].velocityY == -1;
+      } else if(direction == DIRECTIONS.RIGHT) {
+        return body[0].velocityX == 1;
+      } else if(direction == DIRECTIONS.DOWN) {
+        return body[0].velocityY == 1;
+      }
+
+
+    }
+
     var changeDirection = function(direction) {
-      if(direction == DIRECTIONS.LEFT){
+      if(direction == DIRECTIONS.LEFT && !facing(DIRECTIONS.RIGHT)){
         body[0].velocityX = -1;
         body[0].velocityY = 0;
-      } else if(direction == DIRECTIONS.UP){
+      } else if(direction == DIRECTIONS.UP && !facing(DIRECTIONS.DOWN)){
         body[0].velocityX = 0;
         body[0].velocityY = -1;
-      } else if(direction == DIRECTIONS.RIGHT){
+      } else if(direction == DIRECTIONS.RIGHT && !facing(DIRECTIONS.LEFT)){
         body[0].velocityX = 1;
         body[0].velocityY = 0;
-      } else if(direction == DIRECTIONS.DOWN){
+      } else if(direction == DIRECTIONS.DOWN && !facing(DIRECTIONS.UP)){
         body[0].velocityX = 0;
         body[0].velocityY = 1;
       };
