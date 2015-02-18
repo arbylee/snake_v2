@@ -1,11 +1,15 @@
-define(['jquery', 'underscore', 'snake', 'world', 'ui', 'snakeController'], function($, _, Snake, World, UI, SnakeController){
+define(['jquery', 'underscore', 'snake', 'world', 'ui'], function($, _, Snake, World, UI){
   var gameTickLength = 1000/6;
+  var snakeContainer = $('#snake_container');
 
-  var restart = function(ui, world) {
+  var restart = function(ui, snake, world) {
+    snakeContainer.off('keydown', snake.handleKeys)
     var snakeX = world.width / 2,
         snakeY = world.width / 2;
-    var snake = Snake.new(ui, world, snakeX, snakeY);
-    main(ui, snake, world);
+
+    var newSnake = Snake.new(ui, world, snakeX, snakeY);
+    snakeContainer.keydown(newSnake.handleKeys);
+    main(ui, newSnake, world);
   };
 
   var main = function(ui, snake, world) {
@@ -20,7 +24,7 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui', 'snakeController'], func
         };
         intervalId = setTimeout(gameLoop, gameTickLength);
       } else {
-        restart(ui, world);
+        restart(ui, snake, world);
       }
     };
     intervalId = setTimeout(gameLoop, gameTickLength);
@@ -40,8 +44,7 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui', 'snakeController'], func
     var snakeX = world.width / 2;
     var snakeY = world.height / 2;
     var snake = Snake.new(ui, world, snakeX, snakeY);
-    var snakeController = SnakeController.new(snake);
-    canvas.keydown(snakeController.handleKeys);
+    snakeContainer.keydown(snake.handleKeys);
     main(ui, snake, world);
   };
 

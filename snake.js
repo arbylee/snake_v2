@@ -47,8 +47,6 @@ define([], function() {
       } else if(direction == DIRECTIONS.DOWN) {
         return body[0].velocityY == 1;
       }
-
-
     }
 
     var changeDirection = function(direction) {
@@ -67,12 +65,29 @@ define([], function() {
       };
     }
 
+    var handleKeys = function(event){
+      var letterA = 65,
+          letterW = 87,
+          letterD = 68,
+          letterS = 83;
+      if(event.keyCode == letterA){
+        changeDirection(DIRECTIONS.LEFT);
+      } else if(event.keyCode == letterW){
+        changeDirection(DIRECTIONS.UP);
+      } else if(event.keyCode == letterD){
+        changeDirection(DIRECTIONS.RIGHT);
+      } else if(event.keyCode == letterS){
+        changeDirection(DIRECTIONS.DOWN);
+      };
+    };
+
     return {
       body: body,
       draw: draw,
       move: move,
       dead: dead,
-      changeDirection: changeDirection
+      changeDirection: changeDirection,
+      handleKeys: handleKeys
     };
   };
 
