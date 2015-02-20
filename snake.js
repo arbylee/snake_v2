@@ -1,11 +1,16 @@
 define([], function() {
   var DIRECTIONS = {UP: 1, RIGHT: 2, DOWN: 3, LEFT: 4};
-  var newSnake = function(ui, world, startingX, startingY) {
-    var body = [
-      {x: startingX, y: startingY, velocityX: 1, velocityY: 0},
-      {x: startingX-1, y: startingY, velocityX: 1, velocityY: 0},
-      {x: startingX-2, y: startingY, velocityX: 1, velocityY: 0},
-    ]
+  var newSnake = function(ui) {
+    var body;
+
+    var setLocation = function(x, y){
+      body = [
+        {x: x, y: y, velocityX: 1, velocityY: 0},
+        {x: x-1, y: y, velocityX: 1, velocityY: 0},
+        {x: x-2, y: y, velocityX: 1, velocityY: 0},
+      ];
+    };
+
     var draw = function() {
       _.each(body, function(bodyPart) {
         ui.drawPixel(bodyPart.x, bodyPart.y)
@@ -24,17 +29,16 @@ define([], function() {
       };
     };
 
-    var collidedWithWall = function() {
-      if(body[0].x >= world.width ||
-         body[0].y >= world.height ||
-         body[0].x < 0 ||
-         body[0].y < 0){
-        return true;
-      }
-    };
-
-    var dead = function() {
-      return collidedWithWall();
+    var collidedWithSelf = function(){
+      var head = body[0];
+      return _.some(body, function(bodyPart, i){
+        if(i == 0){
+          return false;
+        };
+        if(bodyPart.x == head.x && bodyPart.y == head.y){
+          return true;
+        };
+      });
     };
 
     var facing = function(direction) {
@@ -81,13 +85,18 @@ define([], function() {
       };
     };
 
+    var head = function() {
+      return body[0];
+    };
+
     return {
-      body: body,
+      head: head,
       draw: draw,
       move: move,
-      dead: dead,
+      collidedWithSelf: collidedWithSelf,
       changeDirection: changeDirection,
-      handleKeys: handleKeys
+      handleKeys: handleKeys,
+      setLocation: setLocation
     };
   };
 

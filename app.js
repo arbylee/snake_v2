@@ -3,11 +3,14 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui'], function($, _, Snake, W
   var snakeContainer = $('#snake_container');
 
   var restart = function(ui, snake, world) {
-    snakeContainer.off('keydown', snake.handleKeys)
     var snakeX = world.width / 2,
         snakeY = world.width / 2;
 
-    var newSnake = Snake.new(ui, world, snakeX, snakeY);
+    snakeContainer.off('keydown', snake.handleKeys)
+    world.clearSnakes();
+
+    var newSnake = Snake.new(ui);
+    world.addSnake(newSnake, snakeX, snakeY);
     snakeContainer.keydown(newSnake.handleKeys);
     main(ui, newSnake, world);
   };
@@ -19,7 +22,7 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui'], function($, _, Snake, W
         world.draw();
         snake.move();
         snake.draw();
-        if(snake.dead()) {
+        if(world.snakeCollidedWithWall(snake) || snake.collidedWithSelf()) {
           alive = false;
         };
         intervalId = setTimeout(gameLoop, gameTickLength);
@@ -40,10 +43,11 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui'], function($, _, Snake, W
     var gameHeight = canvas.height() / pixelSize
     var gameWidth = canvas.width() / pixelSize
     var world = World.new(ui, gameWidth, gameHeight);
-
+    var snake = Snake.new(ui);
     var snakeX = world.width / 2;
     var snakeY = world.height / 2;
-    var snake = Snake.new(ui, world, snakeX, snakeY);
+    world.addSnake(snake, snakeX, snakeY)
+
     snakeContainer.keydown(snake.handleKeys);
     main(ui, snake, world);
   };
