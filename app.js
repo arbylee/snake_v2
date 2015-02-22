@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'snake', 'world', 'ui'], function($, _, Snake, World, UI){
+define(['jquery', 'underscore', 'snake', 'world', 'ui', 'food'], function($, _, Snake, World, UI, Food){
   var gameTickLength = 1000/6;
   var snakeContainer = $('#snake_container');
 
@@ -19,9 +19,14 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui'], function($, _, Snake, W
     var alive = true;
     var gameLoop = function(){
       if(alive) {
-        world.draw();
         snake.move();
-        snake.draw();
+        if(world.foodCount() < world.snakeCount()){
+          var location = world.randomFreeLocation();
+          var food = Food.new(ui, location.x, location.y);
+          world.addFood(food);
+        };
+
+        world.draw();
         if(world.snakeCollidedWithWall(snake) || snake.collidedWithSelf()) {
           alive = false;
         };

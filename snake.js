@@ -30,12 +30,11 @@ define([], function() {
     };
 
     var collidedWithSelf = function(){
-      var head = body[0];
       return _.some(body, function(bodyPart, i){
         if(i == 0){
           return false;
         };
-        if(bodyPart.x == head.x && bodyPart.y == head.y){
+        if(bodyPart.x == head().x && bodyPart.y == head().y){
           return true;
         };
       });
@@ -89,8 +88,13 @@ define([], function() {
       return body[0];
     };
 
+    var body = function() {
+      return body;
+    };
+
     return {
       head: head,
+      body: body,
       draw: draw,
       move: move,
       collidedWithSelf: collidedWithSelf,
