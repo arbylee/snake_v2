@@ -34,7 +34,7 @@ define([], function() {
         if(i == 0){
           return false;
         };
-        if(bodyPart.x == head().x && bodyPart.y == head().y){
+        if(bodyPart.x == getHead().x && bodyPart.y == getHead().y){
           return true;
         };
       });
@@ -84,23 +84,34 @@ define([], function() {
       };
     };
 
-    var head = function() {
+    var getHead = function() {
       return body[0];
     };
 
-    var body = function() {
+    var grow = function() {
+      var lastBodyPart = body[body.length-1];
+      body.push({
+        x: lastBodyPart.x - lastBodyPart.velocityX,
+        y: lastBodyPart.y - lastBodyPart.velocityY,
+        velocityX: lastBodyPart.velocityX,
+        velocityY: lastBodyPart.velocityY
+      });
+    };
+
+    var getBody = function() {
       return body;
     };
 
     return {
-      head: head,
-      body: body,
+      head: getHead,
+      body: getBody,
       draw: draw,
       move: move,
       collidedWithSelf: collidedWithSelf,
       changeDirection: changeDirection,
       handleKeys: handleKeys,
-      setLocation: setLocation
+      setLocation: setLocation,
+      grow: grow
     };
   };
 

@@ -73,6 +73,20 @@ define([], function(){
       return false;
     };
 
+    var feedSnakes = function() {
+      _.each(snakes, function(snake){
+        var foundFood = _.some(food, function(foodPiece, index){
+          if(foodPiece.x == snake.head().x && foodPiece.y == snake.head().y){
+            food.splice(index, 1);
+            return true;
+          };
+        });
+        if(foundFood){
+          snake.grow();
+        };
+      });
+    };
+
     return {
       draw: draw,
       width: width,
@@ -83,7 +97,8 @@ define([], function(){
       snakeCount: snakeCount,
       foodCount: foodCount,
       addFood: addFood,
-      randomFreeLocation: randomFreeLocation
+      randomFreeLocation: randomFreeLocation,
+      feedSnakes: feedSnakes
     };
   };
   return {

@@ -20,6 +20,7 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui', 'food'], function($, _, 
     var gameLoop = function(){
       if(alive) {
         snake.move();
+        world.feedSnakes();
         if(world.foodCount() < world.snakeCount()){
           var location = world.randomFreeLocation();
           var food = Food.new(ui, location.x, location.y);
@@ -39,11 +40,9 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui', 'food'], function($, _, 
   };
 
   var init = function() {
-    var canvas,
-        context,
-        pixelSize = 10;
-    canvas = $('#snake_canvas');
-    context = canvas[0].getContext('2d');
+    var canvas = $('#snake_canvas');
+    var context = canvas[0].getContext('2d');
+    var pixelSize = 10;
     var ui = UI.new(context, pixelSize);
     var gameHeight = canvas.height() / pixelSize
     var gameWidth = canvas.width() / pixelSize
