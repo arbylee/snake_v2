@@ -34,7 +34,7 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui', 'food'], function($, _, 
         intervalId = setTimeout(gameLoop, gameTickLength);
       } else {
         restart(ui, snake, world);
-      }
+      };
     };
     intervalId = setTimeout(gameLoop, gameTickLength);
   };

@@ -1,9 +1,12 @@
 define([], function(){
   var newUI = function(context, pixelSize){
-    var drawPixel = function(unweightedX, unweightedY) {
+    var drawPixel = function(unweightedX, unweightedY, fillColor) {
+      if(fillColor === undefined){
+        fillColor = "#000";
+      };
       var x = unweightedX * pixelSize;
       var y = unweightedY * pixelSize;
-      context.fillStyle = "#000";
+      context.fillStyle = fillColor;
       context.fillRect(x, y, pixelSize, pixelSize);
       context.fill();
       context.strokeStyle = "#FFFFFF";
