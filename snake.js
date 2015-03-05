@@ -40,29 +40,33 @@ define([], function() {
       });
     };
 
-    var facing = function(direction) {
+    var turning_180 = function(direction) {
       if(direction == DIRECTIONS.LEFT) {
-        return body[0].velocityX == -1;
+        return body[1].y == body[0].y &&
+               body[1].x == body[0].x - 1
       } else if(direction == DIRECTIONS.UP) {
-        return body[0].velocityY == -1;
+        return body[1].x == body[0].x &&
+               body[1].y == body[0].y - 1
       } else if(direction == DIRECTIONS.RIGHT) {
-        return body[0].velocityX == 1;
+        return body[1].y == body[0].y &&
+               body[1].x == body[0].x + 1
       } else if(direction == DIRECTIONS.DOWN) {
-        return body[0].velocityY == 1;
+        return body[1].x == body[0].x &&
+               body[1].y == body[0].y + 1
       }
     }
 
     var changeDirection = function(direction) {
-      if(direction == DIRECTIONS.LEFT && !facing(DIRECTIONS.RIGHT)){
+      if(direction == DIRECTIONS.LEFT && !turning_180(DIRECTIONS.LEFT)){
         body[0].velocityX = -1;
         body[0].velocityY = 0;
-      } else if(direction == DIRECTIONS.UP && !facing(DIRECTIONS.DOWN)){
+      } else if(direction == DIRECTIONS.UP && !turning_180(DIRECTIONS.UP)){
         body[0].velocityX = 0;
         body[0].velocityY = -1;
-      } else if(direction == DIRECTIONS.RIGHT && !facing(DIRECTIONS.LEFT)){
+      } else if(direction == DIRECTIONS.RIGHT && !turning_180(DIRECTIONS.RIGHT)){
         body[0].velocityX = 1;
         body[0].velocityY = 0;
-      } else if(direction == DIRECTIONS.DOWN && !facing(DIRECTIONS.UP)){
+      } else if(direction == DIRECTIONS.DOWN && !turning_180(DIRECTIONS.DOWN)){
         body[0].velocityX = 0;
         body[0].velocityY = 1;
       };
