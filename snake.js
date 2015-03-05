@@ -1,7 +1,7 @@
 define([], function() {
   var DIRECTIONS = {UP: 1, RIGHT: 2, DOWN: 3, LEFT: 4};
   var newSnake = function(ui) {
-    var body;
+    var body, head;
 
     var setLocation = function(x, y){
       body = [
@@ -9,6 +9,7 @@ define([], function() {
         {x: x-1, y: y, velocityX: 1, velocityY: 0},
         {x: x-2, y: y, velocityX: 1, velocityY: 0},
       ];
+      head = body[0];
     };
 
     var draw = function() {
@@ -34,7 +35,7 @@ define([], function() {
         if(i == 0){
           return false;
         };
-        if(bodyPart.x == getHead().x && bodyPart.y == getHead().y){
+        if(bodyPart.x == head.x && bodyPart.y == head.y){
           return true;
         };
       });
@@ -42,17 +43,17 @@ define([], function() {
 
     var turning_180 = function(direction) {
       if(direction == DIRECTIONS.LEFT) {
-        return body[1].y == body[0].y &&
-               body[1].x == body[0].x - 1
+        return body[1].y == head.y &&
+               body[1].x == head.x - 1
       } else if(direction == DIRECTIONS.UP) {
-        return body[1].x == body[0].x &&
-               body[1].y == body[0].y - 1
+        return body[1].x == head.x &&
+               body[1].y == head.y - 1
       } else if(direction == DIRECTIONS.RIGHT) {
-        return body[1].y == body[0].y &&
-               body[1].x == body[0].x + 1
+        return body[1].y == head.y &&
+               body[1].x == head.x + 1
       } else if(direction == DIRECTIONS.DOWN) {
-        return body[1].x == body[0].x &&
-               body[1].y == body[0].y + 1
+        return body[1].x == head.x &&
+               body[1].y == head.y + 1
       }
     }
 
@@ -89,7 +90,7 @@ define([], function() {
     };
 
     var getHead = function() {
-      return body[0];
+      return head;
     };
 
     var grow = function() {
