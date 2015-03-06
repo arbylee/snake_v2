@@ -31,12 +31,12 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui', 'food'], function($, _, 
         if(world.snakeCollidedWithWall(snake) || snake.collidedWithSelf()) {
           alive = false;
         };
-        intervalId = setTimeout(gameLoop, gameTickLength);
+        setTimeout(gameLoop, gameTickLength);
       } else {
         restart(ui, snake, world);
       };
     };
-    intervalId = setTimeout(gameLoop, gameTickLength);
+    setTimeout(gameLoop, gameTickLength);
   };
 
   var init = function() {
