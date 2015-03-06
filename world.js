@@ -44,8 +44,8 @@ define([], function(){
     };
 
     var randomFreeLocation = function(){
-      var randomX = Math.floor(Math.random() * width-1);
-      var randomY = Math.floor(Math.random() * height-1);
+      var randomX = Math.floor(Math.random() * (width-1));
+      var randomY = Math.floor(Math.random() * (height-1));
       if(!spaceIsOccupied(randomX, randomY)){
         return {x: randomX, y: randomY};
       } else {
