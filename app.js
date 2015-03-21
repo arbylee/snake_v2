@@ -3,7 +3,7 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui', 'food', 'snakeController
       letterW = 87,
       letterD = 68,
       letterS = 83;
-  var gameTickLength = 1000/6;
+  var gameTickLength = 1000/12;
   var snakeContainer = $('#snake_container');
   var snakeController = SnakeController.new(letterW, letterD, letterS, letterA)
   snakeContainer.keydown(snakeController.handleKeys);
