@@ -1,9 +1,5 @@
 define([], function() {
   var DIRECTIONS = {UP: 1, RIGHT: 2, DOWN: 3, LEFT: 4};
-  var letterA = 65,
-      letterW = 87,
-      letterD = 68,
-      letterS = 83;
   var newSnake = function(ui) {
     var body, head;
 
@@ -77,18 +73,6 @@ define([], function() {
       };
     }
 
-    var handleKeys = function(event){
-      if(event.keyCode == letterA){
-        changeDirection(DIRECTIONS.LEFT);
-      } else if(event.keyCode == letterW){
-        changeDirection(DIRECTIONS.UP);
-      } else if(event.keyCode == letterD){
-        changeDirection(DIRECTIONS.RIGHT);
-      } else if(event.keyCode == letterS){
-        changeDirection(DIRECTIONS.DOWN);
-      };
-    };
-
     var getHead = function() {
       return head;
     };
@@ -114,7 +98,6 @@ define([], function() {
       move: move,
       collidedWithSelf: collidedWithSelf,
       changeDirection: changeDirection,
-      handleKeys: handleKeys,
       setLocation: setLocation,
       grow: grow
     };

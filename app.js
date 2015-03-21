@@ -1,17 +1,22 @@
-define(['jquery', 'underscore', 'snake', 'world', 'ui', 'food'], function($, _, Snake, World, UI, Food){
+define(['jquery', 'underscore', 'snake', 'world', 'ui', 'food', 'snakeController'], function($, _, Snake, World, UI, Food, SnakeController){
+  var letterA = 65,
+      letterW = 87,
+      letterD = 68,
+      letterS = 83;
   var gameTickLength = 1000/6;
   var snakeContainer = $('#snake_container');
+  var snakeController = SnakeController.new(letterW, letterD, letterS, letterA)
+  snakeContainer.keydown(snakeController.handleKeys);
 
   var restart = function(ui, snake, world) {
     var snakeX = world.width / 2,
         snakeY = world.width / 2;
 
-    snakeContainer.off('keydown', snake.handleKeys)
     world.clearSnakes();
-
     var newSnake = Snake.new(ui);
+    snakeController.setSnake(newSnake);
     world.addSnake(newSnake, snakeX, snakeY);
-    snakeContainer.keydown(newSnake.handleKeys);
+    snakeContainer.keydown(snakeController.handleKeys);
     main(ui, newSnake, world);
   };
 
@@ -52,7 +57,7 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui', 'food'], function($, _, 
     var snakeY = world.height / 2;
     world.addSnake(snake, snakeX, snakeY)
 
-    snakeContainer.keydown(snake.handleKeys);
+    snakeController.setSnake(snake)
     main(ui, snake, world);
   };
 
