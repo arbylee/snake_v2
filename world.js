@@ -43,6 +43,10 @@ define([], function(){
       food.push(foodPiece);
     };
 
+    var clearFood = function(){
+      food = [];
+    };
+
     var randomFreeLocation = function(){
       var randomX = Math.floor(Math.random() * (width-1));
       var randomY = Math.floor(Math.random() * (height-1));
@@ -97,6 +101,7 @@ define([], function(){
       snakeCount: snakeCount,
       foodCount: foodCount,
       addFood: addFood,
+      clearFood: clearFood,
       randomFreeLocation: randomFreeLocation,
       feedSnakes: feedSnakes
     };

@@ -13,6 +13,7 @@ define(['jquery', 'underscore', 'snake', 'world', 'ui', 'food', 'snakeController
         snakeY = world.width / 2;
 
     world.clearSnakes();
+    world.clearFood();
     var newSnake = Snake.new(ui);
     snakeController.setSnake(newSnake);
     world.addSnake(newSnake, snakeX, snakeY);
